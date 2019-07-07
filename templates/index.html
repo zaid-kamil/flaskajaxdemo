@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+    <!-- css code here -->
+    <style>
+        .container-fluid{
+            background-color: cornflowerblue;
+        }
+        .row{
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- main content -->
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 align-self-center">
+                <div class="card">
+                    <img class="card-img-top" src="holder.js/100x180/" alt="">
+                    <div class="card-body">
+                        <form method='post' id="form1">
+                            <div class="form-group">
+                              <label for="messagebox">Enter your message</label>
+                              <input type="text"
+                                class="form-control" name="messagebox" id="messagebox" aria-describedby="msgHelpBox" placeholder="something in english should be here">
+                              <small id="msgHelpBox" class="form-text text-muted">Be care when sending data, we can spam you!</small>
+                            </div>
+                            <button class="btn btn-primary">Send</button>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <p>
+                            {{results}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(function () {
+        let data = $('#messagebox').val()
+        $('#form1').submit(function (e) { 
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "/process_data",
+                data: {"value":data},
+                success: function (response) {
+                    alert(response['message'])
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+
